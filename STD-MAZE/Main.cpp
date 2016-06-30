@@ -12,7 +12,7 @@ void Main()
 	int increY = Window::Size().y / h;
 	Point me = { 1,1 };
 	Texture tex(L"北条丸.png", { 0,0,0 });
-	const Sound sound(L"09 ここまで！ (A).mp3");
+	const Sound sound(L"TakadaWait.mp3");
 	const Sound bgm(L"yosaku.mp3");
 	bool takada = true;
 

@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Engine\Splash.png" />
+    <Image Include="hozyo.png" />
     <Image Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +239,10 @@
     <Text Include="Engine\dll(x86)\libmpg123\COPYING.txt" />
     <Text Include="Engine\dll(x86)\SoundTouch\COPYING.TXT" />
     <Text Include="Engine\LogMessages.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="TakadaWait.mp3" />
+    <Media Include="yosaku.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

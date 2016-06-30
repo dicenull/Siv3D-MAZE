@@ -85,6 +85,9 @@
     <Image Include="Engine\Splash.png">
       <Filter>リソース ファイル\Engine</Filter>
     </Image>
+    <Image Include="hozyo.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Assets\engine_textures.s3a">
@@ -281,5 +284,13 @@
     <Text Include="Engine\LogMessages.txt">
       <Filter>リソース ファイル\Engine</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="yosaku.mp3">
+      <Filter>リソース ファイル</Filter>
+    </Media>
+    <Media Include="TakadaWait.mp3">
+      <Filter>リソース ファイル</Filter>
+    </Media>
   </ItemGroup>
 </Project>
