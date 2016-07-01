@@ -17,14 +17,17 @@ void Main()
 	Point xroad = me;
 
 	const Texture hozyo(L"hozyo.png", { 0,0,0 });
-	const Sound sound(L"TakadaWait.mp3");
+	const Sound clearSE(L"TakadaWait.mp3");
 	const Sound bgm(L"yosaku.mp3");
-	bool takada = true;
+
+	const Rect EndRect({ 0,0 }, { 640,480 });
 
 	Font endt(30);
 	Font goalF(increY - (increY / 5));
 
 	vector<vector<int>> maze(w, vector<int>(h, 0));
+
+	//周囲を壁にする
 	for (int x = 0;x < w;x++)
 	{
 		maze[x][0] = 1;
@@ -36,11 +39,12 @@ void Main()
 		maze[w - 1][y] = 1;
 	}
 
+	//棒を倒す(ここから棒倒し法)
 	for (int x = 2;x <= w - 3;x += 2)
 	{
 		for (int y = 2;y <= h - 3;y += 2)
 		{
-			maze[x][y] = 2; //ボンバーマンのように壁にする
+			maze[x][y] = 2; //棒を置く
 
 			vector<Point> points;
 
@@ -56,7 +60,8 @@ void Main()
 			maze[p.x][p.y] = 3;
 		}
 	}
-	//ここまで初期化
+	//ここまで棒倒し法
+
 	bgm.play();
 
 	while (System::Update())
@@ -108,24 +113,28 @@ void Main()
 		Circle({ (me.x * increX) + corrX,(me.y * increY) + corrY }, corrX).draw({ 255,0,0 }); //自分を描写
 
 		const bool over = (maze[me.x][me.y + 1] != 0 && maze[me.x][me.y - 1] != 0 
-						&& maze[me.x + 1][me.y] != 0 && maze[me.x - 1][me.y] != 0); //上下左右いけない
+						&& maze[me.x + 1][me.y] != 0 && maze[me.x - 1][me.y] != 0); //上下左右いけるかどうか
 
 		//終了処理
-		if ((me.x == w - 2 && me.y == h - 2 && takada)) //ゴールしたら[くりあ]
+		if ((me.x == w - 2 && me.y == h - 2)) //ゴールしたら[くりあ]
 		{
 			const int32 pos = static_cast<int32>(bgm.streamPosSec());
-			if (takada) takada = false;
-			sound.play();
+			clearSE.play();
 			bgm.stop();
-			Rect({ 0,0 }, { 640,480 }).draw({ 0,0,0,127 });
-			endt(L"---STAGE CLEAR---").drawCenter({ 280,240 }, { 255,0,0 });
-			endt(pos, L"秒").drawCenter({ 320,300 }, { 255,0,0 });
-			WaitKey();
+
+			while (clearSE.isPlaying()) //TKDさんが言い終わるまで閉じさせない
+			{
+				EndRect.draw({ 0,0,0,127 }); //若干黒くするとそれっぽい
+				endt(L"---STAGE CLEAR---").drawCenter({ 280,240 }, { 255,0,0 });
+				endt(pos, L"秒").drawCenter({ 320,300 }, { 255,0,0 });
+				WaitKey();
+			}
+
 			System::Exit();
 		}
 		else if (!bgm.isPlaying() || over) //時間切れまたはつんだら[げーむおーばー]
 		{
-			Rect({ 0,0 }, { 640,480 }).draw({ 0,0,0,127 });
+			EndRect.draw({ 0,0,0,127 }); //若干黒くするとそれっぽい
 			endt(L"---GAME OVER---").drawCenter({ 280,240 }, { 255,0,0 });
 			WaitKey();
 			System::Exit();
